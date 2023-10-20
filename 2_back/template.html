@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crypto Currencies</title>
+</head>
+<body>
+    <h1>Crypto Currencies</h1>
+    <select id="currencySelect">
+        <option value="all">All</option>
+        {{range .}}
+            <option value="{{.ID}}">{{.Name}} ({{.Symbol}})</option>
+        {{end}}
+    </select>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Market Cap</th>
+            </tr>
+        </thead>
+        <tbody id="currencyTable">
+            {{range .}}
+                <tr id="{{.ID}}">
+                    <td>{{.Name}}</td>
+                    <td>{{.Symbol}}</td>
+                    <td>{{.CurrentPrice}}</td>
+                </tr>
+            {{end}}
+        </tbody>
+    </table>
+    <script>
+        document.getElementById("currencySelect").addEventListener("change", function() {
+            var selectedCurrency = this.value;
+            var rows = document.getElementById("currencyTable").getElementsByTagName("tr");
+            for (var i = 0; i < rows.length; i++) {
+                var row = rows[i];
+                var id = row.id;
+                if (selectedCurrency === "all" || id === selectedCurrency) {
+                    row.style.display = "table-row";
+                } else {
+                    row.style.display = "none";
+                }
+            }
+        });
+    </script>
+</body>
+</html>
