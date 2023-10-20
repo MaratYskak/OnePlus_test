@@ -21,21 +21,18 @@ type InstagramData struct {
 }
 
 func main() {
-	// Открываем страницу для парсинга
 	url := "https://hypeauditor.com/top-instagram-all-russia/"
 	doc, err := goquery.NewDocument(url)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Создаем CSV файл для записи данных
 	file, err := os.Create("instagram_data.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
 
-	// Парсинг данных
 	var data []InstagramData
 
 	doc.Find("div.table div.row").Each(func(index int, row *goquery.Selection) {
@@ -51,7 +48,6 @@ func main() {
 		authentic := row.Find("div.row-cell.authentic").Text()
 		engagement := row.Find("div.row-cell.engagement").Text()
 
-		// Создаем структуру данных для записи в CSV
 		data = append(data, InstagramData{
 			Rank:       rank,
 			Influencer: influencer,
@@ -63,7 +59,6 @@ func main() {
 		})
 	})
 
-	// Записываем данные в CSV файл
 	csvData, err := csvutil.Marshal(data)
 	if err != nil {
 		log.Fatal(err)
